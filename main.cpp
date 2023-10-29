@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <stdlib.h>
+#include <time.h>
 using namespace std;
 class Animal
 {
@@ -115,9 +117,14 @@ private:
 public:
     Fox(int x, int y, int s, int d) : Animal(x, y, s, d), food(0) {}
     ~Fox() {}
-    void fooedeat()
+
+    void lisichkapokyshala()
     {
         food++;
+    }
+    int getzayacsdox()
+    {
+        return food;
     }
 };
 class Rabbit : public Animal
@@ -139,6 +146,8 @@ private:
     int **mas;
 
 public:
+    Model(int N, int M, int counthod) : N(N), M(M), counthod(counthod) {}
+    ~Model() {}
     void createmass()
     {
         int L = N * M;
@@ -164,7 +173,11 @@ public:
         {
             if (masR[i].getx() == lisa2->getx())
             {
-                masR.erase(masR.begin() + i);
+                if (masR[i].gety() == lisa2->gety())
+                {
+                    masR.erase(masR.begin() + i);
+                    lisa2->lisichkapokyshala();
+                }
             }
         }
     }
@@ -206,7 +219,8 @@ public:
             {
                 masF.erase(masF.begin() + i);
             }
-            if (/////)
+            int eda = masF[i].getzayacsdox();
+            if (eda >= 2)
             {
                 addF(x, y, s, d);
             }
@@ -216,4 +230,19 @@ public:
 
 int main()
 {
+    int N, M, couthod;
+    cout << "Input height: \n";
+    cin >> N;
+    cout << "Input width: \n ";
+    cin >> M;
+    cout << "Input turns: \n ";
+    cin >> couthod;
+    Model razmer(N, M, couthod);
+    srand(time(NULL));
+    int sizerabbit = rand() % 10;
+    int sizefox = rand() % 10;
+    for (int i = 0; i < sizerabbit; i++)
+    {
+         razmer.addR();
+    }
 }
