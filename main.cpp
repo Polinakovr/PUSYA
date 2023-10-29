@@ -102,25 +102,16 @@ public:
             break;
         }
     }
-    void agerabbit()
+    void age1()
     {
-        int k = getaged();
-        k++;
-    }
-    void agefox()
-    {
-        int l = getaged();
-        l++;
-        if (l >= 15)
-        {
-            // минус куни
-        }
+        age++;
     }
 };
 class Fox : public Animal
-{ 
+{
 private:
- int food;
+    int food;
+
 public:
     Fox(int x, int y, int s, int d) : Animal(x, y, s, d), food(0) {}
     ~Fox() {}
@@ -167,23 +158,58 @@ public:
         masF.push_back(Fox(x, y, s, d));
         mas[x][y] = +1;
     }
+    void poedanie(Fox *lisa2)
+    {
+        for (int i = 0; i <= masR.size(); i++)
+        {
+            if (masR[i].getx() == lisa2->getx())
+            {
+                masR.erase(masR.begin() + i);
+            }
+        }
+    }
     void step(int step)
     {
         for (int i = 0; i <= masR.size(); i++)
         {
             masR[i].move(N, M, 1);
-            masR[i].agerabbit();
+            masR[i].age1();
+            int x = masR[i].getx();
+            int y = masR[i].gety();
+            int d = masR[i].getd();
             int s = masR[i].gets();
+            int age = masR[i].getaged();
             if (step % s == 0)
                 masR[i].change_d();
-                if (k >= 10)
-        {
-            masR.erase(masR[i].());
-        }
-            
+            if (age >= 10)
+            {
+                masR.erase(masR.begin() + i);
+            }
+            if (age == 5 || age == 10)
+            {
+                addR(x, y, s, d);
+            }
         }
         for (int i = 0; i <= masF.size(); i++)
         {
+            masF[i].move(N, M, 2);
+            masF[i].age1();
+            int x = masF[i].getx();
+            int y = masF[i].gety();
+            int d = masF[i].getd();
+            int s = masF[i].gets();
+            int age = masF[i].getaged();
+            poedanie(&(masF[i]));
+            if (step % s == 0)
+                masF[i].change_d();
+            if (age >= 15)
+            {
+                masF.erase(masF.begin() + i);
+            }
+            if (/////)
+            {
+                addF(x, y, s, d);
+            }
         }
     }
 };
