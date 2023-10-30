@@ -6,12 +6,14 @@ using namespace std;
 class Animal
 {
 protected:
-    int age;
-    int x, y; // координаты
-    int d;    // начальное направление
-    int s;    // через сколько ходов будет поворачивать
+    int x;
+    int y; // координаты
+    int s;
+    int d;
+    int age; // через сколько ходов будет поворачивать
 public:
     Animal(int x, int y, int s, int d) : x(x), y(y), s(s), d(d), age(0) {}
+    ~Animal() {}
     void move(int N, int M, int step)
     {
         if (d == 0) // север
@@ -169,7 +171,8 @@ public:
     }
     void poedanie(Fox *lisa2)
     {
-        for (int i = 0; i <= masR.size(); i++)
+        int k = masR.size();
+        for (int i = 0; i <= k; i++)
         {
             if (masR[i].getx() == lisa2->getx())
             {
@@ -183,7 +186,9 @@ public:
     }
     void step(int step)
     {
-        for (int i = 0; i <= masR.size(); i++)
+        int k = masR.size();
+        int p = masF.size();
+        for (int i = 0; i <= k; i++)
         {
             masR[i].move(N, M, 1);
             masR[i].age1();
@@ -203,7 +208,7 @@ public:
                 addR(x, y, s, d);
             }
         }
-        for (int i = 0; i <= masF.size(); i++)
+        for (int i = 0; i <= p; i++)
         {
             masF[i].move(N, M, 2);
             masF[i].age1();
@@ -243,6 +248,15 @@ int main()
     int sizefox = rand() % 10;
     for (int i = 0; i < sizerabbit; i++)
     {
-         razmer.addR();
+        razmer.addR(rand() % N + 1, rand() % M + 1, rand() % 5, rand() % 4);
     }
+    for (int i = 0; i < sizefox; i++)
+    {
+        razmer.addF(rand() % N + 1, rand() % M + 1, rand() % 5, rand() % 4);
+    }
+    for (int i = 0; i < couthod; i++)
+    {
+        razmer.step(i);
+    }
+    return 0;
 }
