@@ -1,7 +1,10 @@
 #include <iostream>
 #include <vector>
 #include <stdlib.h>
-#include <time.h>
+#include <ctime>
+#include <cstdlib>
+#include <fstream>
+#include <string>
 using namespace std;
 class Animal
 {
@@ -124,6 +127,10 @@ public:
     {
         food++;
     }
+    void edacirdik()
+    {
+        food = 0;
+    }
     int getzayacsdox()
     {
         return food;
@@ -162,12 +169,10 @@ public:
     void addR(int x, int y, int s, int d)
     {
         masR.push_back(Rabbit(x, y, s, d));
-        mas[x][y] = +1;
     }
     void addF(int x, int y, int s, int d)
     {
         masF.push_back(Fox(x, y, s, d));
-        mas[x][y] = +1;
     }
     void poedanie(Fox *lisa2)
     {
@@ -188,7 +193,7 @@ public:
     {
         int k = masR.size();
         int p = masF.size();
-        for (int i = 0; i <= k; i++)
+        for (int i = 0; i < k; i++)
         {
             masR[i].move(N, M, 1);
             masR[i].age1();
@@ -208,7 +213,7 @@ public:
                 addR(x, y, s, d);
             }
         }
-        for (int i = 0; i <= p; i++)
+        for (int i = 0; i < p; i++)
         {
             masF[i].move(N, M, 2);
             masF[i].age1();
@@ -228,7 +233,50 @@ public:
             if (eda >= 2)
             {
                 addF(x, y, s, d);
+                masF[i].edacirdik();
             }
+        }
+    }
+    void write()
+    {
+        cout << "COLICHESTVO Z: " << masR.size() << endl;
+        cout << "COLICHESTVO F: " << masF.size() << endl;
+        createmass();
+        int y=masR.size();
+        int s=masF.size();
+        for (int i = 0; i < N; i++)
+        {
+            for (int j = 0; i < M; j++)
+            { 
+                for (int h = 0; h < y; h++)
+                {
+                    if (masR[h].getx() == j && masR[h].gety() == i)
+                    {
+                        mas[i][j]++;
+                    }
+                }
+                for (int h = 0; h < s; h++)
+                {
+                    if (masF[h].getx() == j && masF[h].gety() == i)
+                    {
+                        mas[i][j]--;
+                    }
+                }
+            }
+        }cout << "COLICHESTVO F: " << masF.size() << endl;
+        for (int i = 0; i < N; i++)
+        {
+            for (int j = 0; i < M; j++)
+            {
+                if (mas[i][j] == 0)
+                {
+                    cout << "*" << endl;
+                }
+                else {
+                    cout << mas[i][j] << endl;
+                }
+            }
+            cout<<endl;
         }
     }
 };
@@ -244,19 +292,21 @@ int main()
     cin >> couthod;
     Model razmer(N, M, couthod);
     srand(time(NULL));
-    int sizerabbit = rand() % 10;
-    int sizefox = rand() % 10;
+    int sizerabbit = rand() % 10 + 5;
+    int sizefox = rand() % 10 + 5;
     for (int i = 0; i < sizerabbit; i++)
     {
-        razmer.addR(rand() % N + 1, rand() % M + 1, rand() % 5, rand() % 4);
+        razmer.addR(rand() % N, rand() % M, rand() % 5 + 1, rand() % 4);
     }
     for (int i = 0; i < sizefox; i++)
     {
-        razmer.addF(rand() % N + 1, rand() % M + 1, rand() % 5, rand() % 4);
+        razmer.addF(rand() % N, rand() % M, rand() % 5 + 1, rand() % 4);
     }
-    for (int i = 0; i < couthod; i++)
+    for (int i = 1; i < couthod + 1; i++)
     {
         razmer.step(i);
+        razmer.write();
     }
+
     return 0;
 }
